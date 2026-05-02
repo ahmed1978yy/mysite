@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>موقعي الذكي</title>
+
+  <style>
+
+    body{
+      font-family: Arial;
+      background:#f2f2f2;
+      text-align:center;
+      padding:40px;
+    }
+
+    h1{
+      color:#333;
+    }
+
+    input{
+      width:70%;
+      padding:12px;
+      font-size:18px;
+      border-radius:10px;
+      border:1px solid gray;
+    }
+
+    button{
+      padding:12px 20px;
+      font-size:18px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+    }
+
+    #response{
+      margin-top:30px;
+      background:white;
+      padding:20px;
+      border-radius:10px;
+      min-height:100px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <h1>موقعي بالذكاء الاصطناعي</h1>
+
+  <input
+    type="text"
+    id="question"
+    placeholder="اكتب سؤالك هنا"
+  >
+
+  <button onclick="askAI()">
+    إرسال
+  </button>
+
+  <div id="response">
+    هنا سيظهر الرد...
+  </div>
+
+  <script>
+
+    async function askAI(){
+
+      // أخذ السؤال
+      const question =
+        document.getElementById("question").value;
+
+      // إرسال السؤال للسيرفر
+      const response = await fetch("/api/chat", {
+
+        method:"POST",
+
+        headers:{
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify({
+          question:question
+        })
+
+      });
+
+      // تحويل الرد
+      const data = await response.json();
+
+      // عرض الرد
+      document.getElementById("response").innerText =
+        data.reply;
+    }
+
+  </script>
+
+</body>
+</html>
